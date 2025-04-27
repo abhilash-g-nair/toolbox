@@ -47,9 +47,10 @@
 
 #define DA_SIZE(da) (da)->count
 
-#define DA_FREE(da)        \
-    do {                   \
-        free((da)->items); \
-        (da)->count = 0;   \
-        (da)->size = 0;    \
+#define DA_FREE(da)         \
+    do {                    \
+        free((da)->items);  \
+        (da)->items = NULL; \
+        (da)->count = 0;    \
+        (da)->size = 0;     \
     } while (0)
