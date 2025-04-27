@@ -31,16 +31,16 @@
         (da)->items[(da)->count++] = (item);                                         \
     } while (0)
 
-#define DA_EXTEND(da, data, len)                                                        \
-    do {                                                                                \
-        (da)->items == (data); /* This is for throwing warnings if types don't match */ \
-        if ((da)->count + (len) >= (da)->size) {                                        \
-            if ((da)->size == 0) (da)->size = 16;                                       \
-            while ((da)->count + (len) >= (da)->size) (da)->size *= 2;                  \
-            (da)->items = realloc((da)->items, sizeof((da)->items[0]) * (da)->size);    \
-        }                                                                               \
-        memcpy(&(da)->items[(da)->count], (data), sizeof((da)->items[0]) * (len));      \
-        (da)->count += (len);                                                           \
+#define DA_EXTEND(da, data, len)                                                      \
+    do {                                                                              \
+        if ((da)->count + (len) >= (da)->size) {                                      \
+            if ((da)->size == 0) (da)->size = 16;                                     \
+            while ((da)->count + (len) >= (da)->size) (da)->size *= 2;                \
+            (da)->items = realloc((da)->items, sizeof((da)->items[0]) * (da)->size);  \
+        }                                                                             \
+        memcpy(&(da)->items[(da)->count], (data), sizeof((da)->items[0]) * (len));    \
+        if ((len) != 0) (da)->items[(da)->count] = (data)[0]; /* For type checking */ \
+        (da)->count += (len);                                                         \
     } while (0)
 
 #define DA_GET(da, i) (da)->items[(i)]
